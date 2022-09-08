@@ -1,0 +1,10 @@
+@import "./base.css";
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url('../img/studio-background-concept-abstract-empty-light-gradient-purple-studio-room-background-product.jpg');
+}
