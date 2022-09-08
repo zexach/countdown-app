@@ -27,7 +27,7 @@
             }
           }, 1000)
         }
-        else minutes.value--
+        else setTimeout(() => {minutes.value--},1000)
       }
       if(seconds.value == 0 && minutes.value == 0 && hour.value == 0  && day.value == 0) isFinished.value = true
     }
@@ -75,7 +75,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  color: rgb(252, 118, 212);
+  color: rgb(252, 118, 118);
 }
 .content{
   display: flex;
