@@ -1,16 +1,33 @@
 <script setup>
   import { ref } from 'vue';
 
-  const currentDate = new Date().getTime()
-  const targetDate = new Date("Oct 23, 2022 00:00:00").getTime()
-  const distance = ref(targetDate-currentDate)
-  const day = ref(Math.floor(distance.value / (1000 * 60 * 60 * 24)))
-  const hour = ref(Math.floor((distance.value % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
-  const minutes =  ref(Math.floor((distance.value % (1000 * 60 * 60)) / (1000 * 60)))
-  const seconds = ref(Math.floor(Math.floor((distance.value % (1000 * 60)) / 1000)))
+  const isDateSet = ref(false)
+  const selectedDate = ref('')
+  const currentDate = ref(new Date())
+  const targetDate = ref(new Date())
+  const distance = ref(0)
+  
+  const setDate = () => {
+    currentDate.value = new Date().getTime()
+    targetDate.value = new Date(selectedDate.value).getTime()
+    distance.value = targetDate.value - currentDate.value
+    isDateSet.value = true
+  }
+
+  
   const isFinished = ref(false)
+  const day = ref(0)
+  const hour = ref(0)
+  const minutes =  ref(0)
+  const seconds = ref(0)
+
 
   const countdownLogic = () => {
+
+    day.value = ref(Math.floor(distance.value / (1000 * 60 * 60 * 24)))
+    hour.value = ref(Math.floor((distance.value % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+    minutes.value =  ref(Math.floor((distance.value % (1000 * 60 * 60)) / (1000 * 60)))
+    seconds.value = ref(Math.floor(Math.floor((distance.value % (1000 * 60)) / 1000)))
 
     if(!isFinished.value){
       seconds.value--
@@ -42,7 +59,12 @@
 
 <template>
   <div class="container">
-    <div class="content" v-if="!isFinished">
+    <div class="set-date" v-if="!isDateSet">
+      <p style="font-size: 2rem;">Pick your date</p>
+      <input type="date" v-model="selectedDate" v-if="!isDateSet">
+      <button @click="setDate">Set date</button>
+    </div>
+    <div class="content" v-if="!isFinished && isDateSet">
       <h1 class="title" >EMIR'S BIRTHDAY</h1>
       <div class="countdown" >
         <div class="single-number">
@@ -75,7 +97,22 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  color: rgb(252, 118, 118);
+  color: rgb(97, 184, 255);
+}
+.set-date{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+input{
+  padding: 3rem;
+  border: 0;
+  border-radius: 2rem;
+  background-color: rgb(21, 81, 86);
+  color: rgb(97,185,255);
+  font-size: 3rem;
+  outline: none;
 }
 .content{
   display: flex;
@@ -101,8 +138,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: linear-gradient(to top, rgb(48, 44, 70) 0%, rgb(48, 44, 70) 46%, rgb(23, 20, 44) 0%, rgb(48, 44, 70) 100%);;
   font-size: 80px;
+  background-color: rgb(21, 81, 86);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .time-part{
